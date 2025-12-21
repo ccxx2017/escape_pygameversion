@@ -15,7 +15,8 @@ class DataLoader:
   
   def get_secenary_data(self,path):
     secenary_data = DataLoader.load_json(path)
-    return secenary_data
+    processed = {int(k):v for k,v in secenary_data.items()}
+    return processed
   
   def get_object_data(self,path):
     object_data = DataLoader.load_json(path)

@@ -7,3 +7,4 @@ class Settings:
   BODY_SIZE = (800,600)
   CURRENT_ROOM = 31
   TILE_SIZE = 30
+  START_ROOM = 31

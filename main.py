@@ -8,10 +8,14 @@ class Escape:
     self.screen = pygame.display.set_mode(Settings.WINDOW_SIZE)
     self.draw_room = DrawRoom(self)
     self.running = True
+    self.current_room = Settings.START_ROOM
 
   def _handle_event(self,event):
     if event.type == pygame.QUIT:
-          self.running = False
+        self.running = False
+    elif event.type == pygame.MOUSEBUTTONDOWN:
+        if event.button == 0:
+          self.current_room += 1
 
   def _update_screen(self):
     #  self.screen.fill(Settings.BLUE)

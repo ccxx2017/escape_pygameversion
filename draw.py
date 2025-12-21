@@ -9,11 +9,12 @@ class DrawRoom:
     self.my_game_map_data = None
     self.objects = None
     self.secenary = None
-    self.current_room = Settings.CURRENT_ROOM
     self.generate_map()
     
-  def generate_map(self):
-    self.my_game_map_data = self.data_source.get_game_map_data(r"data\game_map_data.json")
+  def generate_map(self,room_id):
+   
+    self.current_room = room_id
+    self.my_game_map_data = self.data_source.get_game_map_data("data/game_map_data.json")
     self.room_height = self.my_game_map_data[self.current_room][1]
     self.room_width = self.my_game_map_data[self.current_room][2]
     self.topleft_y = self.screen.get_height()//2 - self.room_height//2*30
@@ -64,8 +65,8 @@ class DrawRoom:
         self.room_map[self.room_height-1][middle_colum-1] = floor_type
         self.room_map[self.room_height-1][middle_colum+1] = floor_type
 
-    self.secenary = self.data_source.get_secenary_data(r"data\secenary.json")
-    self.objects = self.data_source.get_object_data(r"data\objects.json")
+    self.secenary = self.data_source.get_secenary_data("data/secenary.json")
+    self.objects = self.data_source.get_object_data("data/objects.json")
     if self.current_room in self.secenary:
       for secenary_item in self.secenary[self.current_room]:
         item = secenary_item[0]
@@ -87,6 +88,7 @@ class DrawRoom:
   def draw(self):
     my_rect = pygame.Rect(Settings.BODY_TOPLEFT,Settings.BODY_SIZE)
     pygame.draw.rect(self.screen,Settings.RED,my_rect)
+    
     # self.generate_map()
     
     for y in range(self.room_height):
