@@ -3,6 +3,9 @@ import pygame
 
 class DataLoader:
   
+  def __init__(self):
+    self._objects_data = None
+
   @staticmethod
   def load_json(path):
     with open(path,"r") as f:
@@ -15,12 +18,15 @@ class DataLoader:
   
   def get_secenary_data(self,path):
     secenary_data = DataLoader.load_json(path)
-    return secenary_data
+    processed = {int(k):v for k,v in secenary_data.items()}
+    return processed
   
   def get_object_data(self,path):
-    object_data = DataLoader.load_json(path)
-    processed = self._process_objects(object_data)
-    return processed
+    if self._objects_data == None:
+      object_data = DataLoader.load_json(path)
+      self._objects_data = self._process_objects(object_data)
+    
+    return self._objects_data
   
   def _process_objects(self,objects):
     processed_objects = {int(key):item for key,item in objects.items()}
