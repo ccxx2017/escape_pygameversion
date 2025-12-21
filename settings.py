@@ -1,0 +1,9 @@
+class Settings:
+  WINDOW_SIZE = 800,800
+  WHITE = (255,255,255)
+  BLUE = (0,0,255)
+  RED = (255,0,0)
+  BODY_TOPLEFT = (0,150)
+  BODY_SIZE = (800,600)
+  CURRENT_ROOM = 31
+  TILE_SIZE = 30
