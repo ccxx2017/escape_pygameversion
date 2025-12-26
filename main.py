@@ -34,7 +34,4 @@ class Escape:
 if __name__ == "__main__":
   
   my_game = Escape()
-  # print(f"{my_game.draw_room.secenary=}")
-  my_game.print_map()
-  
   my_game.run_game()

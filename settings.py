@@ -5,5 +5,5 @@ class Settings:
   RED = (255,0,0)
   BODY_TOPLEFT = (0,150)
   BODY_SIZE = (800,600)
-  CURRENT_ROOM = 31
+  START_ROOM = 31
   TILE_SIZE = 30

@@ -9,10 +9,12 @@ class DrawRoom:
     self.my_game_map_data = None
     self.objects = None
     self.secenary = None
-    self.current_room = Settings.CURRENT_ROOM
-    self.generate_map()
+    self.current_room = Settings.START_ROOM
+    self.old_room = None
     
   def generate_map(self):
+    self.counter += 1
+    print(self.counter)
     self.my_game_map_data = self.data_source.get_game_map_data("data/game_map_data.json")
     self.room_height = self.my_game_map_data[self.current_room][1]
     self.room_width = self.my_game_map_data[self.current_room][2]
@@ -87,7 +89,10 @@ class DrawRoom:
   def draw(self):
     my_rect = pygame.Rect(Settings.BODY_TOPLEFT,Settings.BODY_SIZE)
     pygame.draw.rect(self.screen,Settings.RED,my_rect)
-    # self.generate_map()
+    if self.old_room != self.current_room:
+      self.generate_map()
+      self.old_room = self.current_room
+    
     
     for y in range(self.room_height):
       for x in range(self.room_width):

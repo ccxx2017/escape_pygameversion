@@ -5,6 +5,8 @@ class DataLoader:
   
   def __init__(self):
     self._objects_data = None
+    self._game_map_data = None
+    self._secenary_data = None
 
   @staticmethod
   def load_json(path):
@@ -13,13 +15,15 @@ class DataLoader:
       return data
     
   def get_game_map_data(self,path):
-    map_data = DataLoader.load_json(path)
-    return map_data
+    if self._game_map_data is None:
+      self._game_map_data = DataLoader.load_json(path)
+    return self._game_map_data
   
   def get_secenary_data(self,path):
-    secenary_data = DataLoader.load_json(path)
-    processed = {int(k):v for k,v in secenary_data.items()}
-    return processed
+    if self._secenary_data is None:
+      secenary_data = DataLoader.load_json(path)
+      self._secenary_data = {int(k):v for k,v in secenary_data.items()}
+    return self._secenary_data
   
   def get_object_data(self,path):
     if self._objects_data == None:
