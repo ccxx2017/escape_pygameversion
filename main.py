@@ -6,15 +6,16 @@ class Escape:
   def __init__(self):
     pygame.init()
     self.screen = pygame.display.set_mode(Settings.WINDOW_SIZE)
-    self.draw_room = DrawRoom(self)
     self.running = True
     self.current_room = Settings.START_ROOM
+    self.draw_room = DrawRoom(self)
 
   def _handle_event(self,event):
     if event.type == pygame.QUIT:
         self.running = False
     elif event.type == pygame.MOUSEBUTTONDOWN:
-        if event.button == 0:
+        
+        if event.button == 1:
           self.current_room += 1
 
   def _update_screen(self):
@@ -40,5 +41,4 @@ if __name__ == "__main__":
   my_game = Escape()
   # print(f"{my_game.draw_room.secenary=}")
   # my_game.print_map()
-  
   my_game.run_game()

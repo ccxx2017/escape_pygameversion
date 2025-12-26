@@ -4,30 +4,31 @@ from utilities.data_loader import DataLoader
 class DrawRoom:
 
   def __init__(self,escape):
-    self.screen = escape.screen
+    self.escape = escape
     self.data_source = DataLoader()
     self.my_game_map_data = None
     self.objects = None
     self.secenary = None
-    self.generate_map()
+    self.current_room_cached = None
+    # self.generate_map(escape.current_room)
     
   def generate_map(self,room_id):
    
-    self.current_room = room_id
+    room = room_id
     self.my_game_map_data = self.data_source.get_game_map_data("data/game_map_data.json")
-    self.room_height = self.my_game_map_data[self.current_room][1]
-    self.room_width = self.my_game_map_data[self.current_room][2]
-    self.topleft_y = self.screen.get_height()//2 - self.room_height//2*30
-    self.topleft_x = self.screen.get_width()//2 - self.room_width//2*30
-    room_data = self.my_game_map_data[self.current_room]
+    self.room_height = self.my_game_map_data[room][1]
+    self.room_width = self.my_game_map_data[room][2]
+    self.topleft_y = self.escape.screen.get_height()//2 - self.room_height//2*30
+    self.topleft_x = self.escape.screen.get_width()//2 - self.room_width//2*30
+    room_data = self.my_game_map_data[room]
     self.room_height = room_data[1]
     self.room_width  = room_data[2]
-    floor_type = self.get_floor_type()
-    if self.current_room in list(range(1,21)):
+    floor_type = self.get_floor_type(room)
+    if room in list(range(1,21)):
 
       side_edge = 2
       bottom_edge = 2
-    elif self.current_room in list(range(21,26)):
+    elif room in list(range(21,26)):
       side_edge = 2
       bottom_edge = 1
     else:
@@ -51,15 +52,15 @@ class DrawRoom:
       self.room_map[middle_row+1][self.room_width-1] = floor_type
       self.room_map[middle_row-1][self.room_width-1] = floor_type
 
-    if self.current_room%5 != 1:
-      left_room = self.current_room - 1
+    if room%5 != 1:
+      left_room = room - 1
       if self.my_game_map_data[left_room][4]:
         self.room_map[middle_row][0] = floor_type
         self.room_map[middle_row+1][0] = floor_type
         self.room_map[middle_row-1][0] = floor_type
 
-    if self.current_room < 45:
-      room_below = self.current_room + 5
+    if room < 45:
+      room_below = room + 5
       if self.my_game_map_data[room_below][3]:
         self.room_map[self.room_height-1][middle_colum] = floor_type
         self.room_map[self.room_height-1][middle_colum-1] = floor_type
@@ -67,8 +68,8 @@ class DrawRoom:
 
     self.secenary = self.data_source.get_secenary_data("data/secenary.json")
     self.objects = self.data_source.get_object_data("data/objects.json")
-    if self.current_room in self.secenary:
-      for secenary_item in self.secenary[self.current_room]:
+    if room in self.secenary:
+      for secenary_item in self.secenary[room]:
         item = secenary_item[0]
         item_y = secenary_item[1]
         item_x = secenary_item[2]
@@ -79,22 +80,24 @@ class DrawRoom:
           self.room_map[item_y][item_x+tile_num] = 255
 
 
-  def get_floor_type(self):
-    if self.current_room in list(range(1,26)):
+  def get_floor_type(self,room):
+    if room in list(range(1,26)):
       return 2
     else:
       return 0
 
   def draw(self):
+    room = self.escape.current_room
     my_rect = pygame.Rect(Settings.BODY_TOPLEFT,Settings.BODY_SIZE)
-    pygame.draw.rect(self.screen,Settings.RED,my_rect)
-    
-    # self.generate_map()
+    pygame.draw.rect(self.escape.screen,Settings.RED,my_rect)
+    if room != self.current_room_cached:
+      self.generate_map(room)
+      self.current_room_cached = room
     
     for y in range(self.room_height):
       for x in range(self.room_width):
         item = self.room_map[y][x]
         if item != 255:
           image = self.objects[item][0]
-          self.screen.blit(image,(self.topleft_x+x*30,self.topleft_y+y*30-image.get_height()))
+          self.escape.screen.blit(image,(self.topleft_x+x*30,self.topleft_y+y*30-image.get_height()))
           pass

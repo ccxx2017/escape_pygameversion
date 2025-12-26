@@ -3,6 +3,11 @@ import pygame
 
 class DataLoader:
   
+  def __init__(self):
+    self._objects = None
+    self._game_map_data = None
+    self._secenary_data = None
+
   @staticmethod
   def load_json(path):
     with open(path,"r") as f:
@@ -10,17 +15,20 @@ class DataLoader:
       return data
     
   def get_game_map_data(self,path):
-    map_data = DataLoader.load_json(path)
-    return map_data
+    if self._game_map_data is None:
+      self._game_map_data = DataLoader.load_json(path)
+    return self._game_map_data
   
   def get_secenary_data(self,path):
-    secenary_data = DataLoader.load_json(path)
-    processed = {int(k):v for k,v in secenary_data.items()}
+    if self._secenary_data is None:
+      self._secenary_data = DataLoader.load_json(path)
+    processed = {int(k):v for k,v in self._secenary_data.items()}
     return processed
   
   def get_object_data(self,path):
-    object_data = DataLoader.load_json(path)
-    processed = self._process_objects(object_data)
+    if self._objects is None:
+      self._objects = DataLoader.load_json(path)
+    processed = self._process_objects(self._objects)
     return processed
   
   def _process_objects(self,objects):
