@@ -1,21 +1,18 @@
 import pygame,json
 from settings import Settings
-from utilities.data_loader import DataLoader
+from utilities.resource_manager import ResourceManager
 class DrawRoom:
 
   def __init__(self,escape):
     self.escape = escape
-    self.data_source = DataLoader()
-    self.my_game_map_data = None
-    self.objects = None
-    self.secenary = None
+    self.res = ResourceManager()
     self.current_room_cached = None
     # self.generate_map(escape.current_room)
     
   def generate_map(self,room_id):
    
     room = room_id
-    self.my_game_map_data = self.data_source.get_game_map_data("data/game_map_data.json")
+    self.my_game_map_data = self.res.get_map_data("data/game_map_data.json")
     self.room_height = self.my_game_map_data[room][1]
     self.room_width = self.my_game_map_data[room][2]
     self.topleft_y = self.escape.screen.get_height()//2 - self.room_height//2*30
@@ -66,8 +63,8 @@ class DrawRoom:
         self.room_map[self.room_height-1][middle_colum-1] = floor_type
         self.room_map[self.room_height-1][middle_colum+1] = floor_type
 
-    self.secenary = self.data_source.get_secenary_data("data/secenary.json")
-    self.objects = self.data_source.get_object_data("data/objects.json")
+    self.secenary = self.res.get_scenery_data("data/secenary.json")
+    self.objects = self.res.get_object_assets("data/objects.json")
     if room in self.secenary:
       for secenary_item in self.secenary[room]:
         item = secenary_item[0]
