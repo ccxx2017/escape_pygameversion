@@ -6,16 +6,22 @@ class Escape:
   def __init__(self):
     pygame.init()
     self.screen = pygame.display.set_mode(Settings.WINDOW_SIZE)
+    self.current_room = Settings.START_ROOM
+
     self.draw_room = DrawRoom(self)
     self.running = True
+    
 
   def _handle_event(self,event):
     if event.type == pygame.QUIT:
           self.running = False
+    if event.type == pygame.MOUSEBUTTONDOWN:
+      if event.button == 1:
+        self.current_room += 1
 
   def _update_screen(self):
     #  self.screen.fill(Settings.BLUE)
-    self.draw_room.draw()
+    self.draw_room.draw(self.current_room)
     pygame.display.flip()
 
   def print_map(self):
