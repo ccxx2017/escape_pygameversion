@@ -15,7 +15,7 @@ class ResourceManager:
     """获取装饰物数据（带缓存）"""
     if path not in self._data_cache:
       self._data_cache[path] = self.loader.get_processed_scenery(path)
-    return self._data_cache
+    return self._data_cache[path]
   
   def get_object_assets(self, path):
         """

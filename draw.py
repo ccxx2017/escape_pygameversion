@@ -65,6 +65,7 @@ class DrawRoom:
 
     self.secenary = self.res.get_scenery_data("data/secenary.json")
     self.objects = self.res.get_object_assets("data/objects.json")
+
     if room in self.secenary:
       for secenary_item in self.secenary[room]:
         item = secenary_item[0]
