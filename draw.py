@@ -1,11 +1,11 @@
 import pygame,json
 from settings import Settings
-from utilities.data_loader import DataLoader
+from utilities.resource_manager import ResourceManager
 class DrawRoom:
 
   def __init__(self,escape):
     self.screen = escape.screen
-    self.data_source = DataLoader()
+    self.data_source = ResourceManager()
     self.my_game_map_data = None
     self.objects = None
     self.secenary = None
