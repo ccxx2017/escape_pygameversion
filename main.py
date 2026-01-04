@@ -1,13 +1,14 @@
 import pygame
 from settings import Settings
 from draw import DrawRoom
+from map_manager import MapManager
 
 class Escape:
   def __init__(self):
     pygame.init()
     self.screen = pygame.display.set_mode(Settings.WINDOW_SIZE)
     self.current_room = Settings.START_ROOM
-
+    self.map_manager = MapManager()
     self.draw_room = DrawRoom(self)
     self.running = True
     
@@ -21,7 +22,7 @@ class Escape:
 
   def _update_screen(self):
     #  self.screen.fill(Settings.BLUE)
-    self.draw_room.draw(self.current_room)
+    self.draw_room.draw(self.current_room,map_manager)
     pygame.display.flip()
 
   def print_map(self):
