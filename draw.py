@@ -14,15 +14,16 @@ class DrawRoom:
     self.center_x = self.screen.get_width()//2 
     
   def draw(self,room_id,map_manager):
-    room_map,room_height,room_width = map_manager.get_room_map(room_id)
+    room = map_manager.get_room_map(room_id)
     my_rect = pygame.Rect(Settings.BODY_TOPLEFT,Settings.BODY_SIZE)
     pygame.draw.rect(self.screen,Settings.RED,my_rect)
-    start_x = self.center_x-room_width//2
-    start_y = self.center_y-room_height//2
-    for y in range(room_height):
-      for x in range(room_width):
-        item = room_map[y][x]
+    start_x = self.center_x-room.width//2
+    start_y = self.center_y-room.height//2
+    for y in range(room.height):
+      for x in range(room.width):
+        item = room.tiles[y][x]
         if item != 255:
-          image = self.objects[item][0]
+          
+          image = self.objects[item].image
           self.screen.blit(image,(start_x+x*30,start_y+y*30-image.get_height()))
           pass

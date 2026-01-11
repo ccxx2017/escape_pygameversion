@@ -1,5 +1,17 @@
 from utilities.resource_manager import ResourceManager
 from settings import Settings
+from typing import List
+from dataclasses import dataclass
+
+# 叠buff
+@dataclass#装饰器
+class RoomData:
+  tiles:List[List[int]]
+  height:int
+  width:int
+
+
+
 class MapManager:
   """生成地图并返回地图数据"""
   def __init__(self,screen):
@@ -72,12 +84,16 @@ class MapManager:
         item_y = secenary_item[1]
         item_x = secenary_item[2]
         room_map[item_y][item_x] = item
-        image_here = self.objects[item][0]
+        image_here = self.objects[item].image
         image_width_in_tiles = image_here.get_width()/Settings.TILE_SIZE
         for tile_num in range(1,int(image_width_in_tiles)):
           room_map[item_y][item_x+tile_num] = 255
 
-    return room_map,room_height,room_width
+    return RoomData(
+      tiles=room_map,
+      height=room_height,
+      width=room_width
+    )
 
 
   def get_floor_type(self,room_id):

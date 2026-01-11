@@ -1,5 +1,14 @@
-
+import pygame
 from .data_loader import DataLoader
+from dataclasses import dataclass
+from typing import Optional
+
+@dataclass
+class GameObject:
+  image:pygame.Surface
+  alt_image:Optional[pygame.Surface]
+  name:str 
+  description:str
 
 class ResourceManager:
   def __init__(self):
@@ -35,7 +44,8 @@ class ResourceManager:
         v2 = self._get_cached_image(v[1]) if v[1] is not None else None
         v3 = v[2]
         v4 = v[3] if len(v)==4 else None
-        processed[k] = [v1,v2,v3,v4]
+        # processed[k] = [v1,v2,v3,v4]
+        processed[k] = GameObject(image=v1,alt_image=v2,name=v3,description=v4)
     return processed
   
   def _get_cached_image(self,img_path):
